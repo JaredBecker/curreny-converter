@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Rand & Đồng",
-    "slug": "currency-converter",
+    "name": "Ding Dong Dolla",
+    "slug": "ding-dong-dolla",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -10,7 +10,7 @@
       "supportsTablet": true
     },
     "android": {
-      "package": "com.jaredbecker.randdong",
+      "package": "com.jaredbecker.dingdongdolla",
       "adaptiveIcon": {
         "backgroundColor": "#3B6EA5",
         "foregroundImage": "./assets/android-icon-foreground.png",
