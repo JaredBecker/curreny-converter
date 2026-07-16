@@ -1,7 +1,7 @@
 import { Pressable, ScrollView, Text, View } from 'react-native';
 import { FONT, type Tokens } from '../theme';
 import { type Code, SHORT_NAMES } from '../vietnam';
-import { BACKSPACE, type Model, NUM_ORDER } from '../useConverter';
+import { BACKSPACE, CLEAR, type Model, NUM_ORDER } from '../useConverter';
 import { fmtVnd, noteLabel } from '../format';
 
 /**
@@ -40,7 +40,7 @@ function Key({
     <Pressable
       onPress={onPress}
       accessibilityRole="button"
-      accessibilityLabel={label === BACKSPACE ? 'Backspace' : label}
+      accessibilityLabel={label === BACKSPACE ? 'Backspace' : label === CLEAR ? 'Clear' : label}
       style={({ pressed }) => ({
         flex: 1,
         height: 48,
@@ -261,10 +261,8 @@ export function Pad(p: Props) {
                       key={ci}
                       label={k}
                       onPress={() => p.press(k)}
-                      bg={k === BACKSPACE ? t.chipOff : t.key}
-                      color={
-                        k === '.' && focus === 'VND' ? t.faint : k === BACKSPACE ? t.muted : t.ink
-                      }
+                      bg={k === BACKSPACE || k === CLEAR ? t.chipOff : t.key}
+                      color={k === BACKSPACE || k === CLEAR ? t.muted : t.ink}
                       weight={FONT.sansMed}
                       size={21}
                       t={t}

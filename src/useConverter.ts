@@ -6,7 +6,13 @@ import { type Code, NOTES, USES_K } from './vietnam';
 export type Model = 'A' | 'B';
 
 export const BACKSPACE = '⌫';
-export const NUM_ORDER = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '0', BACKSPACE];
+export const CLEAR = 'C';
+/**
+ * No decimal key: every field rounds to whole units on display, so a decimal
+ * could only ever enter a number you'd never see back. That slot is worth more
+ * as a one-tap clear than as a "." nobody can use.
+ */
+export const NUM_ORDER = ['1', '2', '3', '4', '5', '6', '7', '8', '9', CLEAR, '0', BACKSPACE];
 
 const MAX_LEN = 13;
 const empty: Record<Code, number[]> = { VND: [], ZAR: [], USD: [] };
@@ -49,13 +55,8 @@ export function useConverter(rates: Rates) {
       setBuffers(s => {
         let b = String(s[focus] ?? '');
         if (k === BACKSPACE) b = b.slice(0, -1);
-        else if (k === '.') {
-          // Dong has no cents, and a menu never prints one.
-          if (focus === 'VND' || b.includes('.')) return s;
-          b = b + '.';
-        } else {
-          b = b === '0' ? k : b + k;
-        }
+        else if (k === CLEAR) b = '';
+        else b = b === '0' ? k : b + k;
         if (b.length > MAX_LEN) return s;
         return { ...s, [focus]: b };
       });
@@ -103,11 +104,6 @@ export function useConverter(rates: Rates) {
     setExact(e => !e);
   }, [exact]);
 
-  const clear = useCallback(() => {
-    setBuffers({ VND: '', ZAR: '', USD: '' });
-    setNotes(empty);
-  }, []);
-
   return {
     model,
     setModel,
@@ -121,7 +117,6 @@ export function useConverter(rates: Rates) {
     press,
     addNote,
     backspace,
-    clear,
     vnd,
     zar,
     usd,
