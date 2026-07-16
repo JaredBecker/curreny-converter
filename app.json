@@ -12,9 +12,8 @@
     "android": {
       "package": "com.jaredbecker.dingdongdolla",
       "adaptiveIcon": {
-        "backgroundColor": "#3B6EA5",
+        "backgroundColor": "#121311",
         "foregroundImage": "./assets/android-icon-foreground.png",
-        "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
       "predictiveBackGestureEnabled": false
@@ -23,7 +22,16 @@
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      "expo-font"
+      "expo-font",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/icon.png",
+          "imageWidth": 160,
+          "resizeMode": "contain",
+          "backgroundColor": "#121311"
+        }
+      ]
     ]
   }
 }

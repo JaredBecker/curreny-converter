@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Pressable, Text, useColorScheme, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useFonts } from 'expo-font';
@@ -19,6 +19,7 @@ import { type Code, ORDER, REF_ROWS } from './src/vietnam';
 import { Field } from './src/components/Field';
 import { Pad } from './src/components/Pad';
 import { About } from './src/components/About';
+import { Intro } from './src/components/Intro';
 
 /** A half-filled disc — reads as contrast without pulling in an icon library. */
 function ThemeButton({ t, dark, onPress }: { t: Tokens; dark: boolean; onPress: () => void }) {
@@ -88,7 +89,7 @@ function Converter() {
           <Text
             style={{ fontFamily: FONT.mono, fontSize: 12, letterSpacing: 1.92, color: t.muted }}
           >
-            RAND ⇆ ĐỒNG
+            DING DONG DOLLA
           </Text>
 
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
@@ -236,17 +237,15 @@ export default function App() {
     IBMPlexMono_400Regular,
     IBMPlexMono_500Medium,
   });
+  const [introDone, setIntroDone] = useState(false);
 
-  // Match the splash to the phone's scheme so loading doesn't flash white at night.
-  const system = useColorScheme();
-
+  // The intro doubles as the loading screen: its contours render on the first
+  // frame (no fonts needed), the words join once the fonts are in, and the
+  // converter mounts underneath ready for the reveal.
   return (
     <SafeAreaProvider>
-      {loaded ? (
-        <Converter />
-      ) : (
-        <View style={{ flex: 1, backgroundColor: system === 'dark' ? '#191815' : '#F6F3EB' }} />
-      )}
+      {loaded && <Converter />}
+      {!introDone && <Intro fontsReady={loaded} onFinish={() => setIntroDone(true)} />}
     </SafeAreaProvider>
   );
 }
